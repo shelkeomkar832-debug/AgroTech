@@ -2,7 +2,7 @@
   "name": "react-example",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://shelkeomkar832-debug.github.io/AgroTech/",
+  "build": "vite build",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
