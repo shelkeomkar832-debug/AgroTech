@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
 
   return {
-    base: '/AgroTech/',   // 🔥 ADD THIS LINE
+
 
     plugins: [react(), tailwindcss()],
 
