@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@100..900&family=JetBrains+Mono:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-earth-50: #121212;
+  --color-earth-100: #0a0a0a;
+  --color-earth-200: #1a1a1a;
+  --color-earth-300: #2a2a2a;
+  --color-earth-400: #404040;
+  --color-earth-500: #10b981; /* Emerald 500 */
+  --color-earth-600: #059669; /* Emerald 600 */
+  --color-earth-700: #047857; /* Emerald 700 */
+  --color-earth-800: #064e3b; /* Emerald 800 */
+  --color-earth-900: #065f46;
+  --color-earth-950: #ffffff;
+}
+
+body {
+  @apply bg-earth-100 text-white font-sans antialiased;
+  background-image: 
+    radial-gradient(circle at 2px 2px, rgba(16, 185, 129, 0.05) 1px, transparent 0);
+  background-size: 32px 32px;
+}
+
+.serif {
+  font-family: var(--font-serif);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.glass {
+  background-color: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.markdown-body {
+  @apply text-gray-300 leading-relaxed;
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+  font-family: var(--font-serif);
+  @apply font-bold text-emerald-400 mt-6 mb-3;
+}
+
+.markdown-body h1 { @apply text-3xl border-b border-white/10 pb-2; }
+.markdown-body h2 { @apply text-2xl; }
+.markdown-body h3 { @apply text-xl; }
+
+.markdown-body p {
+  @apply mb-4 text-lg;
+}
+
+.markdown-body ul {
+  @apply list-disc pl-6 mb-6 space-y-3;
+}
+
+.markdown-body li {
+  @apply text-gray-300;
+}
+
+.markdown-body li strong {
+  @apply text-emerald-400 font-bold block mb-1;
+}
+
+.markdown-body strong {
+  @apply text-white font-semibold;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-black;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-emerald-900/50 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-emerald-800;
+}
+
+.input-focus {
+  @apply focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 outline-none transition-all;
+}
+
+.card-hover {
+  @apply hover:shadow-2xl hover:shadow-emerald-500/5 transition-all duration-300;
+}
+
+.neon-border {
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
+}
+
+
+
