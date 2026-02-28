@@ -1,0 +1,7 @@
+{
+  "name": "AgroTech",
+  "description": "A comprehensive AI-powered farming assistant for soil analysis, crop suggestions, and pest detection by AgroTech.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
