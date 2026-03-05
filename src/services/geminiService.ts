@@ -38,6 +38,7 @@ export const analyzeSoil = async (params: {
   waterAvailability: string;
   isBeginner: boolean;
   landSize?: number;
+  landUnit?: string;
   history?: any[];
 }) => {
   const historyContext = params.history && params.history.length > 0 
@@ -51,7 +52,7 @@ export const analyzeSoil = async (params: {
     - Current Season: ${params.season}
     - Water Availability: ${params.waterAvailability}
     - User Type: ${params.isBeginner ? "Beginner (New to farming)" : "Experienced Farmer"}
-    ${params.landSize ? `- Land Size: ${params.landSize} Hectares` : ""}
+    ${params.landSize ? `- Land Size: ${params.landSize} ${params.landUnit || 'Hectares'}` : ""}
     ${historyContext}
 
     Please provide:
