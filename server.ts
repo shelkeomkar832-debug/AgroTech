@@ -1,8 +1,7 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
-import Database from "better-sqlite3";
-import { Pool } from "pg";
 import path from "path";
+import type { Pool } from "pg";
 
 // Database Setup
 const isProd = process.env.NODE_ENV === "production";
@@ -11,38 +10,43 @@ const databaseUrl = process.env.DATABASE_URL;
 let db: any;
 let pgPool: Pool | null = null;
 
-if (isProd && databaseUrl) {
-  // Use PostgreSQL for Production (Free on Supabase/Neon)
-  pgPool = new Pool({
-    connectionString: databaseUrl,
-    ssl: { rejectUnauthorized: false }
-  });
-  db = {
-    exec: async (sql: string) => {
-      const client = await pgPool!.connect();
-      try { await client.query(sql); } finally { client.release(); }
-    },
-    all: async (sql: string, params: any[] = []) => {
-      const res = await pgPool!.query(sql, params);
-      return res.rows;
-    },
-    run: async (sql: string, params: any[] = []) => {
-      const res = await pgPool!.query(sql, params);
-      return { lastInsertRowid: res.rows[0]?.id };
-    }
-  };
-} else {
-  // Use SQLite for Local Development
-  const sqlite = new Database("farming.db");
-  db = {
-    exec: (sql: string) => sqlite.exec(sql),
-    all: (sql: string, params: any[] = []) => sqlite.prepare(sql).all(...params),
-    run: (sql: string, params: any[] = []) => sqlite.prepare(sql).run(...params)
-  };
+async function setupDatabase() {
+  if (isProd && databaseUrl) {
+    // Use PostgreSQL for Production (Free on Supabase/Neon)
+    const { Pool } = await import("pg");
+    pgPool = new Pool({
+      connectionString: databaseUrl,
+      ssl: { rejectUnauthorized: false }
+    });
+    db = {
+      exec: async (sql: string) => {
+        const client = await pgPool!.connect();
+        try { await client.query(sql); } finally { client.release(); }
+      },
+      all: async (sql: string, params: any[] = []) => {
+        const res = await pgPool!.query(sql, params);
+        return res.rows;
+      },
+      run: async (sql: string, params: any[] = []) => {
+        const res = await pgPool!.query(sql, params);
+        return { lastInsertRowid: res.rows[0]?.id };
+      }
+    };
+  } else {
+    // Use SQLite for Local Development
+    const Database = (await import("better-sqlite3")).default;
+    const sqlite = new Database("farming.db");
+    db = {
+      exec: (sql: string) => sqlite.exec(sql),
+      all: (sql: string, params: any[] = []) => sqlite.prepare(sql).all(...params),
+      run: (sql: string, params: any[] = []) => sqlite.prepare(sql).run(...params)
+    };
+  }
 }
 
 // Initialize database
 const initDb = async () => {
+  await setupDatabase();
   const sql = isProd && databaseUrl 
     ? `CREATE TABLE IF NOT EXISTS records (
         id SERIAL PRIMARY KEY,
